@@ -52,3 +52,7 @@ export const StyledBtnDelete = styled.button`
   width: 70px;
   background-color: lightcoral;
 `;
+export const StyledLoader = styled.div`
+  display: flex;
+  justify-content: center;
+`;

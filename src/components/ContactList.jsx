@@ -6,16 +6,30 @@ import {
   StyledBtnDelete,
 } from '../styles/App.Styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeContact } from 'redux/contactsSlice';
+import {
+  selectContacts,
+  selectError,
+  selectFilter,
+  selectLoading,
+} from 'redux/selectors';
+import { deleteContactThunk, getContactsThunk } from 'redux/operations';
+import { Loader } from './Loader';
+import { useEffect } from 'react';
 
 export const ContactList = () => {
-  const { contacts } = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.contacts.filter);
+  const contacts = useSelector(selectContacts);
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
+  const filter = useSelector(selectFilter);
 
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getContactsThunk());
+  }, [dispatch]);
+
   const filterContacts = () => {
     return contacts.filter(contact =>
-      contact.contactName.toLowerCase().includes(filter.toLowerCase())
+      contact.name.toLowerCase().includes(filter.toLowerCase())
     );
   };
 
@@ -24,13 +38,15 @@ export const ContactList = () => {
     <StyledContact>
       <StyledTitle>Contacts</StyledTitle>
       <ul>
+        {loading && <Loader />}
+        {error && <h3>Something went wrong</h3>}
         {filteredData.map(contact => (
           <StyledContactLi key={contact.id}>
             <StyledSpan>
-              {contact.contactName}: <span>{contact.number}</span>
+              {contact.name}: <span>{contact.phone}</span>
             </StyledSpan>
             <StyledBtnDelete
-              onClick={() => dispatch(removeContact(contact.id))}
+              onClick={() => dispatch(deleteContactThunk(contact.id))}
             >
               delete
             </StyledBtnDelete>
