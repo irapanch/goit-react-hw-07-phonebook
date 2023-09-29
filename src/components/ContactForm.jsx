@@ -23,7 +23,6 @@ export const ContactForm = () => {
     if (!findByName) {
       dispatch(addContactThunk({ name, phone }));
     } else alert(`${findByName.name} is already in contacts`);
-
     setName('');
     setPhone('');
   };

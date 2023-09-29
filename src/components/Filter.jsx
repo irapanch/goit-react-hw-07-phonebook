@@ -2,8 +2,9 @@ import React from 'react';
 
 import { StyledDesc, StyledContact } from '../styles/App.Styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFilter } from 'redux/contactsSlice';
+
 import { selectFilter } from 'redux/selectors';
+import { updateFilter } from 'redux/contactsSlice';
 
 const Filter = () => {
   const dispatch = useDispatch();
